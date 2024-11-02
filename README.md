@@ -1,0 +1,2 @@
+-Desktop:
+    - Home page: ![Screenshot 2024-11-02 193455](https://github.com/user-attachments/assets/c8017513-be22-461c-bc73-b809a9c5471f)
