@@ -48,12 +48,12 @@ const ShowCountryInfo = (props:{country:Country,handleCountryClick:any}) => {
 
     const handleToggleColorMode = () => {
         toggleColorMode(); 
-        if (currentTheme === 'light') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            setMode('dark_mode');
-          } else {
+        if (currentTheme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'light');
             setMode('light_mode');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            setMode('dark_mode');
           }
       };
 
