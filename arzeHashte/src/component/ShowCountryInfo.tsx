@@ -8,6 +8,8 @@ import{
 }from '@chakra-ui/react';
 import { IoMoonOutline} from "react-icons/io5";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { useState ,useEffect } from 'react';
+import '../App.css'
 
 interface Country {
     name: string;
@@ -40,9 +42,19 @@ interface Language {
 const ShowCountryInfo = (props:{country:Country,handleCountryClick:any}) => {
     let languages: string ='';
     const { toggleColorMode } = useColorMode();
+    const [mode , setMode] = useState('light_mode');
+
+    const currentTheme = document.documentElement.getAttribute('data-theme');
 
     const handleToggleColorMode = () => {
         toggleColorMode(); 
+        if (currentTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            setMode('dark_mode');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            setMode('light_mode');
+          }
       };
 
     props.country.languages?.forEach(lag=>{
@@ -51,19 +63,27 @@ const ShowCountryInfo = (props:{country:Country,handleCountryClick:any}) => {
 
 
     const borderCountries = props.country.borders?.map(border=>
-    <Box m={'0 10px 5px'} display={'flex'} justifyContent={'center'} alignItems={'center'} textAlign={'center'} w={{base:'70px', md:'100px'}} h={'30px'} className='element-mood' borderRadius={'5'} boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'}>{border}</Box>
+    <Box m={'0 10px 5px'} display={'flex'} justifyContent={'center'} alignItems={'center'} textAlign={'center'} w={{base:'70px', md:'100px'}} h={'30px'} className={mode} borderRadius={'5'} boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'}>{border}</Box>
     )
 
+    useEffect(() => {
+        if (currentTheme === 'dark') {
+          setMode('dark_mode');
+        } else {
+          setMode('light_mode');
+        }
+      
+      }, [currentTheme])
 
     return <div>
         <header>
-      <Box padding={'20px'} className='element-mood' display={'flex'} boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'} justifyContent={'space-between'}>
+      <Box padding={'20px'} className={mode} display={'flex'} boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'} justifyContent={'space-between'}>
         <Text cursor={'default'} fontWeight={'bold'} fontSize={{base:'20px',md:'30px'}} >Where in the world?</Text>
-        <Button onClick={()=>handleToggleColorMode()} background={'transparent'}><IoMoonOutline fontSize={'17px'}  /> Dark Mood</Button>
+        <Button onClick={()=>handleToggleColorMode()} background={'transparent'}><IoMoonOutline fontSize={'17px'}  /> Dark Mode</Button>
       </Box>
     </header>
     <section style={{width:'90%',margin:'70px auto 20px',display:'flex',alignItems:'left'}}>
-        <Button cursor={'pointer'} onClick={()=>props.handleCountryClick(null)} w={'120px'} className='element-mood'  boxShadow={'.01px .01px 10px rgba(128, 128, 128, 0.329)'}><IoIosArrowRoundBack style={{fontSize:'20px'}} />Back</Button>
+        <Button cursor={'pointer'} onClick={()=>props.handleCountryClick(null)} w={'120px'} className={mode}  boxShadow={'.01px .01px 10px rgba(128, 128, 128, 0.329)'}><IoIosArrowRoundBack style={{fontSize:'20px'}} />Back</Button>
     </section>
     <section style={{width:'90%',margin:'40px auto'}}>
         <Box display={'flex'} flexDirection={{base:'column',md:'row'}}>

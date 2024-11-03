@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState ,useEffect } from 'react'
 import './App.css'
 import './index.css'
 import { 
@@ -30,16 +30,18 @@ function App(props:{handleCountryClick:any}) {
   const [inputSearch,setInputSaerch] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
   const { toggleColorMode } = useColorMode();
+  const [mode ,setMode]=useState('light_mode');
 
-    const currentTheme = document.documentElement.getAttribute('data-theme');
+  const currentTheme = document.documentElement.getAttribute('data-theme');
 
   const handleToggleColorMode = () => {
     toggleColorMode(); 
-  
     if (currentTheme === 'light') {
       document.documentElement.setAttribute('data-theme', 'dark');
+      setMode('dark_mode');
     } else {
       document.documentElement.setAttribute('data-theme', 'light');
+      setMode('light_mode');
     }
   };
   
@@ -62,7 +64,7 @@ function App(props:{handleCountryClick:any}) {
     const countries = filteredCountries.map((country) => {
       return (
         <div key={country.name} >
-          <Card maxW='sm' onClick={()=>props.handleCountryClick(country)} m={'20px'}  cursor={'pointer'}  w={300} className='element-mood' boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'}>
+          <Card maxW='sm' onClick={()=>props.handleCountryClick(country)} m={'20px'}  cursor={'pointer'}  w={300} className={mode} boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'}>
             <CardBody padding={0}>
               <Image
                 src={country.flag}
@@ -95,23 +97,32 @@ function App(props:{handleCountryClick:any}) {
 
   const showCountrys = setCountrys();
 
+  useEffect(() => {
+    if (currentTheme === 'dark') {
+      setMode('dark_mode');
+    } else {
+      setMode('light_mode');
+    }
+  
+  }, [currentTheme])
+
   return (
     <>
     <header>
-      <Box padding={'20px'} className='element-mood' boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'} display={'flex'} justifyContent={'space-between'}>
+      <Box padding={'20px'} className={mode} boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'} display={'flex'} justifyContent={'space-between'}>
         <Text cursor={'default'} fontWeight={'bold'} fontSize={{base:'20px',md:'30px'}} >Where in the world?</Text>
-        <Button onClick={handleToggleColorMode}  background={'transparent'}><IoMoonOutline fontSize={'17px'}  /> Dark Mood</Button>
+        <Button onClick={()=>handleToggleColorMode()}  background={'transparent'}><IoMoonOutline fontSize={'17px'}  /> Dark Mode</Button>
       </Box>
     </header>
     <section style={{width:'90%',margin:'30px auto'}}>
       <Box display={'flex'} flexDirection={{base:'column',md:'row'}} justifyContent={'space-between'} alignItems={{base:'flex-start',md:'center'}} >
-      <InputGroup m={{base:'0 0 20px',md:'0'}} boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'} w={{base:'100%',md:'40%'}} h={'60px'} className='element-mood' display={'flex'}  alignItems={'center'} >
+      <InputGroup m={{base:'0 0 20px',md:'0'}} boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'} w={{base:'100%',md:'40%'}} h={'60px'} className={mode} display={'flex'}  alignItems={'center'} >
       <IoIosSearch style={{fontSize:'30px',paddingLeft:'10px'}}/>
       <Input onChange={handlerInputSearch} placeholder='search for a country...' style={{border:'0',height:'100%'}} />
       </InputGroup>
       <Box>
           <Menu >
-            <MenuButton boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'} as={Button} rightIcon={<FaAngleDown className='element-mood'/>} className='element-mood' >
+            <MenuButton boxShadow={'.1px .1px 10px rgba(128, 128, 128, 0.329)'} as={Button} rightIcon={<FaAngleDown className={mode}/>} className={mode} >
               filter by Regian
             </MenuButton>
             <MenuList>
