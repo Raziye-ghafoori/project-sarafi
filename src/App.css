@@ -1,0 +1,48 @@
+@font-face {
+  font-family: NunitoSans;
+  src: url(../public/fonts/NunitoSans-Italic-VariableFont_YTLC\,opsz\,wdth\,wght.ttf),
+  url(../public/fonts/NunitoSans-VariableFont_YTLC\,opsz\,wdth\,wght.ttf);
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  font-family: NunitoSans;
+  line-height: 1.5;
+  font-weight: 300;
+
+  background-color: hsl(0, 0%, 98%);
+  color: hsl(200, 15%, 8%);
+  color-scheme: light dark;
+  overflow-y: scroll;
+  
+
+
+}
+
+[data-theme='dark'] {
+  --background-color:hsl(209, 23%, 22%) ;
+  --text-color: #ffffff;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  font-family: NunitoSans;
+  line-height: 1.5;
+  overflow-y: scroll;
+}
+
+#root{
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.light_mode{
+  background: hsl(0, 0%, 100%) !important;
+}
+
+
+.dark_mode{
+  color: #ffffff !important;
+  background: #213547 !important;
+}
